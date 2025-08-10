@@ -1,51 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
+
 {% block content %}
-<h2 class="mb-4">System Overview</h2>
-<div class="row g-4 mb-4">
-  <div class="col-md-3"><div class="card p-3 text-center shadow-sm">
-    <h5 class="card-title">Total Persons</h5>
-    <p class="display-5 fw-bold">{{ stats.total_persons }}</p>
-  </div></div>
-  <div class="col-md-3"><div class="card p-3 text-center shadow-sm">
-    <h5 class="card-title">Active Cameras</h5>
-    <p class="display-5 fw-bold">{{ stats.active_cameras }}</p>
-  </div></div>
-  <div class="col-md-3"><div class="card p-3 text-center shadow-sm">
-    <h5 class="card-title">Alerts</h5>
-    <p class="display-5 fw-bold">{{ stats.alerts }}</p>
-  </div></div>
-  <div class="col-md-3"><div class="card p-3 text-center shadow-sm">
-    <h5 class="card-title">Detections</h5>
-    <p class="display-5 fw-bold">{{ stats.detections }}</p>
-  </div></div>
-</div>
-
-<div class="row g-4">
-  <div class="col-md-3">
-    <div class="card p-3 text-center shadow-sm">
-      <h5 class="card-title">AI Mode</h5>
-      <p id="aiModeStatus" class="display-6 fw-bold">{{ 'Active' if ai_mode else 'Inactive' }}</p>
-      <button id="aiToggleBtn" class="btn btn-outline-primary">
-        {{ 'Disable AI' if ai_mode else 'Enable AI' }}
-      </button>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-const aiToggleBtn = document.getElementById('aiToggleBtn');
-const aiModeStatus = document.getElementById('aiModeStatus');
-aiToggleBtn.addEventListener('click', () => {
-  fetch('/toggle_ai_mode', {method: 'POST'})
-    .then(r=>r.json())
-    .then(data => {
-      const active = data.ai_mode;
-      aiModeStatus.textContent = active ? 'Active' : 'Inactive';
-      aiToggleBtn.textContent = active ? 'Disable AI' : 'Enable AI';
-    });
-});
-</script>
+<h1>Welcome to your Dashboard, {{ username }}!</h1>
+<nav>
+  <a href="{{ url_for('logout') }}">Logout</a>
+</nav>
 {% endblock %}
