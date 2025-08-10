@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Cameras{% endblock %}
+{% block content %}
+<h2 class="mb-4">Camera Management</h2>
+<div class="card mb-3">
+  <div class="card-body">
+    <form method="POST">
+      <div class="row">
+        <div class="col-md-4">
+          <input type="text" class="form-control" name="name" placeholder="Camera Name" required>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" name="rtsp_url" placeholder="RTSP URL" required>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary">Add Camera</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>RTSP URL</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for camera in cameras %}
+        <tr>
+          <td>{{ camera.id }}</td>
+          <td>{{ camera.name }}</td>
+          <td>{{ camera.rtsp_url }}</td>
+          <td>{{ camera.created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Live Demo{% endblock %}
+{% block content %}
+<h2>Live Demo</h2>
+
+<div class="mb-3">
+  {% if not demo_running %}
+    <button id="startWebcamDemo" class="btn btn-success me-2">
+      <i class="fas fa-video"></i> Start Webcam Demo
+    </button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#videoUploadModal">
+      <i class="fas fa-upload"></i> Upload Video
+    </button>
+  {% else %}
+    <button id="stopDemo" class="btn btn-danger">
+      <i class="fas fa-stop"></i> Stop Demo
+    </button>
+  {% endif %}
+</div>
+
+<div class="mb-3">
+  {% if demo_running %}
+    <img src="{{ url_for('video_feed') }}" class="img-fluid" alt="Live Video Feed" style="max-height: 500px;" />
+  {% else %}
+    <p class="text-muted">Start the demo to see live video feed here.</p>
+  {% endif %}
+</div>
+
+<div>
+  <p><strong>Detections:</strong> <span id="detectionCount">{{ demo_stats.detections }}</span></p>
+  <p><strong>Frame:</strong> <span id="frameCount">{{ demo_stats.current_frame }}</span>
+    {% if demo_stats.total_frames > 0 %} / {{ demo_stats.total_frames }}{% endif %}
+  </p>
+  <p><strong>Status:</strong> <span id="demoStatus" class="badge bg-secondary">{{ demo_stats.status }}</span></p>
+</div>
+
+<!-- Modal for Video Upload -->
+<div class="modal fade" id="videoUploadModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="videoUploadForm" enctype="multipart/form-data" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Upload Demo Video</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" name="video_file" class="form-control" accept=".mp4,.avi,.mov,.mkv" required />
+        <label class="mt-3">Playback Speed</label>
+        <select name="demo_speed" class="form-select">
+          <option value="0.5">0.5x Slow</option>
+          <option value="1" selected>1x Normal</option>
+          <option value="1.5">1.5x Fast</option>
+          <option value="2">2x Very Fast</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Start Video</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('startWebcamDemo')?.addEventListener('click', function() {
+  fetch('/start_demo', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'demo_type=webcam'
+  }).then(() => location.reload());
+});
+
+document.getElementById('stopDemo')?.addEventListener('click', function() {
+  fetch('/stop_demo', { method: 'POST' }).then(() => location.reload());
+});
+
+document.getElementById('videoUploadForm')?.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  formData.append('demo_type', 'video');
+  fetch('/start_demo', { method: 'POST', body: formData }).then(() => location.reload());
+});
+
+// Live stats refresher
+setInterval(() => {
+  fetch('/api/demo_stats').then(res => res.json()).then(data => {
+    document.getElementById('detectionCount').textContent = data.detections || 0;
+    document.getElementById('frameCount').textContent = data.current_frame || 0;
+    const statusEl = document.getElementById('demoStatus');
+    statusEl.textContent = data.status || 'Stopped';
+    statusEl.className = (data.status && data.status.includes('Running')) ? 'badge bg-success' : 'badge bg-secondary';
+  });
+}, 1000);
+</script>
+{% endblock %}

@@ -1,0 +1,4 @@
+env/
+*.pyc
+__pycache__/
+face_recognition.db

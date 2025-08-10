@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h2 class="mb-4">System Reports</h2>
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">System Statistics</h5>
+        <p>Total Persons: {{ stats.total_persons }}</p>
+        <p>Active Cameras: {{ stats.active_cameras }}</p>
+        <p>Total Alerts: {{ stats.alerts }}</p>
+        <p>Total Detections: {{ stats.detections }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
