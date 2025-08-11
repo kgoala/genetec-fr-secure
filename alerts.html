@@ -1,40 +1,20 @@
 {% extends "base.html" %}
-{% block title %}Alerts{% endblock %}
 {% block content %}
-<h2 class="mb-4">Alert Management</h2>
-<div class="card">
-  <div class="card-body">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Person ID</th>
-          <th>Camera ID</th>
-          <th>Triggered At</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for alert in alerts %}
-        <tr>
-          <td>{{ alert.id }}</td>
-          <td>{{ alert.person_id }}</td>
-          <td>{{ alert.camera_id }}</td>
-          <td>{{ alert.triggered_at }}</td>
-          <td>{{ 'Acknowledged' if alert.acknowledged else 'Pending' }}</td>
-          <td>
-            {% if not alert.acknowledged %}
-            <form method="POST" style="display:inline;">
-              <input type="hidden" name="acknowledge" value="{{ alert.id }}">
-              <button type="submit" class="btn btn-sm btn-success">Acknowledge</button>
-            </form>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
+  <h1>Alerts</h1>
+  <table border="1" cellpadding="5">
+    <tr><th>ID</th><th>Person ID</th><th>Camera ID</th><th>Time</th><th>Ack</th></tr>
+    {% for a in alerts %}
+      <tr>
+        <td>{{a.id}}</td><td>{{a.person_id}}</td><td>{{a.camera_id}}</td>
+        <td>{{a.triggered_at}}</td>
+        <td>
+          {% if a.acknowledged %}
+            ✓
+          {% else %}
+            <a href="{{ url_for('ack_alert', alert_id=a.id) }}">Acknowledge</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}

@@ -1,8 +1,24 @@
-<!-- Add this after the existing nav links -->
-<hr class="text-muted">
-<a href="{{ url_for('manage_users') }}" class="nav-link">
-  <i class="fas fa-user-cog"></i> Manage Users
-</a>
-<a href="{{ url_for('logout') }}" class="nav-link">
-  <i class="fas fa-sign-out-alt"></i> Logout
-</a>
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>FR Secure</title></head>
+<body>
+  <nav>
+    {% if session.user_email %}
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      {% if session.is_admin %}| <a href="{{ url_for('manage_users') }}">Manage Users</a>{% endif %}
+      | <a href="{{ url_for('persons') }}">Persons</a>
+      | <a href="{{ url_for('camera_feeds') }}">Cameras</a>
+      | <a href="{{ url_for('alerts') }}">Alerts</a>
+      | <a href="{{ url_for('detections') }}">Detections</a>
+      | <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+  </nav>
+  <hr>
+  {% with msgs=get_flashed_messages() %}
+    {% if msgs %}
+      <ul>{% for m in msgs %}<li style="color:red">{{m}}</li>{% endfor%}</ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</body>
+</html>

@@ -1,29 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Detections{% endblock %}
 {% block content %}
-<h2 class="mb-4">Detection History</h2>
-<div class="card">
-  <div class="card-body">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Person ID</th>
-          <th>Camera ID</th>
-          <th>Timestamp</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for detection in detections %}
-        <tr>
-          <td>{{ detection.id }}</td>
-          <td>{{ detection.person_id }}</td>
-          <td>{{ detection.camera_id }}</td>
-          <td>{{ detection.timestamp }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
+  <h1>Detections</h1>
+  <table border="1" cellpadding="5">
+    <tr><th>ID</th><th>Person ID</th><th>Camera ID</th><th>Time</th></tr>
+    {% for d in detections %}
+      <tr>
+        <td>{{d.id}}</td><td>{{d.person_id}}</td><td>{{d.camera_id}}</td><td>{{d.timestamp}}</td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Camera Feeds</h1>
+  <form method="post">
+    <input name="name" placeholder="Camera Name" required>
+    <input name="rtsp_url" placeholder="RTSP URL" required>
+    <button>Add Camera</button>
+  </form>
+  <ul>
+    {% for c in cameras %}<li>{{c.name}} – {{c.rtsp_url}}</li>{% endfor %}
+  </ul>
+{% endblock %}

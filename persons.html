@@ -1,30 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Persons{% endblock %}
 {% block content %}
-<h2 class="mb-4">Persons Management</h2>
-<a href="{{ url_for('add_person') }}" class="btn btn-primary mb-3">Add Person</a>
-<div class="card">
-  <div class="card-body">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Created At</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for person in persons %}
-        <tr>
-          <td>{{ person.id }}</td>
-          <td>{{ person.name }}</td>
-          <td>{{ person.description }}</td>
-          <td>{{ person.created_at }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
+  <h1>Persons</h1>
+  <form method="post">
+    <input name="name" placeholder="Name" required>
+    <input name="description" placeholder="Description">
+    <button>Add Person</button>
+  </form>
+  <ul>
+    {% for p in persons %}<li>{{p.name}} – {{p.description}}</li>{% endfor %}
+  </ul>
 {% endblock %}

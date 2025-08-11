@@ -1,60 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Manage Users{% endblock %}
 {% block content %}
-<h2 class="mb-4">User Management</h2>
-
-<div class="card mb-4">
-  <div class="card-header">
-    <h5>Add New User</h5>
-  </div>
-  <div class="card-body">
-    <form method="POST">
-      <div class="row">
-        <div class="col-md-4">
-          <input type="email" class="form-control" name="email" placeholder="Email Address" required>
-        </div>
-        <div class="col-md-3">
-          <input type="password" class="form-control" name="password" placeholder="Password" required>
-        </div>
-        <div class="col-md-3">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="is_admin">
-            <label class="form-check-label">Admin Access</label>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-primary">Add User</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-body">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Admin</th>
-          <th>Created At</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for user in users %}
-        <tr>
-          <td>{{ user.email }}</td>
-          <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
-          <td>{{ user.created_at }}</td>
-          <td>
-            <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-sm btn-danger" 
-               onclick="return confirm('Delete this user?')">Delete</a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
+  <h1>Manage Users</h1>
+  <table border="1" cellpadding="5">
+    <tr><th>ID</th><th>Email</th><th>Admin?</th><th>Created At</th></tr>
+    {% for u in users %}
+      <tr>
+        <td>{{u.id}}</td><td>{{u.email}}</td>
+        <td>{{ 'Yes' if u.is_admin else 'No' }}</td>
+        <td>{{u.created_at}}</td>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}
