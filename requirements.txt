@@ -1,7 +1,2 @@
 flask
-flask_login
 waitress
-opencv-python
-face-recognition
-numpy
-pillow
