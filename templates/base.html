@@ -1,8 +1,29 @@
-<!-- Add this after the existing nav links -->
-<hr class="text-muted">
-<a href="{{ url_for('manage_users') }}" class="nav-link">
-  <i class="fas fa-user-cog"></i> Manage Users
-</a>
-<a href="{{ url_for('logout') }}" class="nav-link">
-  <i class="fas fa-sign-out-alt"></i> Logout
-</a>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Genetec-FR-Secure</title>
+</head>
+<body>
+  <nav>
+    {% if session.user_email %}
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      {% if session.is_admin %}
+        | <a href="{{ url_for('manage_users') }}">Manage Users</a>
+      {% endif %}
+      | <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+  </nav>
+  <hr>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for msg in messages %}
+          <li style="color:red">{{ msg }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</body>
+</html>
