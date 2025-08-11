@@ -1,2 +1,7 @@
-flask
-waitress
+flask==3.0.3
+waitress==3.0.0
+werkzeug==3.0.6
+jinja2==3.1.6
+itsdangerous==2.2.0
+click==8.1.8
+blinker==1.8.2
